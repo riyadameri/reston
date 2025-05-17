@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moulai Food - طلب الطعام</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1><i class="fas fa-utensils"></i> Moulai Food</h1>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="orders-status">
+        <h2><i class="fas fa-clipboard-list"></i> حالة طلباتك</h2>
+        <div class="status-cards">
+            <div class="status-card pending">
+                <div class="status-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="status-title">قيد الانتظار</div>
+                <div class="status-count" id="pendingCount">0</div>
+            </div>
+            <div class="status-card preparing">
+                <div class="status-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="status-title">قيد التحضير</div>
+                <div class="status-count" id="preparingCount">0</div>
+            </div>
+            <div class="status-card delivering">
+                <div class="status-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <div class="status-title">قيد التوصيل</div>
+                <div class="status-count" id="deliveringCount">0</div>
+            </div>
+            <div class="status-card delivered">
+                <div class="status-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="status-title">تم التسليم</div>
+                <div class="status-count" id="deliveredCount">0</div>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <div class="container">
+            <div class="menu" id="menu">
+                <h2><i class="fas fa-bars"></i> قائمة الطعام</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="ابحث عن الطعام...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="food-items" id="foodItems">
+                    <!-- Food items will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="cart" id="cart">
+                <h2><i class="fas fa-shopping-cart"></i> سلة المشتريات</h2>
+                <div class="cart-items" id="cartItems">
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>سلة المشتريات فارغة</p>
+                    </div>
+                </div>
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>السعر الإجمالي:</span>
+                        <span id="subtotal">0 دج</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>رسوم التوصيل:</span>
+                        <span id="deliveryFee">140 دج</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>المجموع:</span>
+                        <span id="total">140 دج</span>
+                    </div>
+                </div>
+                <button class="btn checkout-btn" id="checkoutBtn">
+                    <i class="fas fa-check"></i> تأكيد الطلب
+                </button>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Food Details Modal -->
+    <div class="modal" id="foodDetailsModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeFoodModal">&times;</span>
+            <div class="food-details-header">
+                <img id="detailFoodImage" src="" alt="Food" class="food-detail-image">
+                <h2 id="detailFoodName"></h2>
+                <div class="food-detail-price" id="detailFoodPrice"></div>
+            </div>
+            <div class="food-detail-description">
+                <p id="detailFoodDescription">وصف مفصل عن الوجبة والمكونات المستخدمة فيها.</p>
+            </div>
+            <div class="food-detail-actions">
+                <button class="btn add-to-cart" id="addToCartFromDetail">
+                    <i class="fas fa-cart-plus"></i> أضف إلى السلة
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2><i class="fas fa-receipt"></i> تفاصيل الطلب</h2>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="userName">اسمك</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">رقم الهاتف</label>
+                    <input type="text" id="userPhone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deliveryAddress">عنوان التوصيل</label>
+                    <textarea id="deliveryAddress" rows="3" required></textarea>
+                </div>
+                
+                <div class="order-summary">
+                    <h3>ملخص الطلب</h3>
+                    <div id="orderSummary"></div>
+                    <div class="summary-total">
+                        <span>المجموع:</span>
+                        <span id="orderTotal">140 دج</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-paper-plane"></i> إرسال الطلب
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Thank You Modal -->
+    <div class="modal thank-you-modal" id="thankYouModal">
+        <div class="modal-content">
+            <div class="thank-you-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 class="thank-you-title">شكراً لطلبك!</h2>
+            <p class="thank-you-message">
+                تم استلام طلبك بنجاح وسيتم تجهيزه في أسرع وقت ممكن. يمكنك تتبع حالة الطلب من خلال صفحة الطلبات.
+            </p>
+            <div class="order-details">
+                <div class="order-detail"><strong>رقم الطلب:</strong> <span id="thankYouOrderId">#12345</span></div>
+                <div class="order-detail"><strong>الوقت المتوقع:</strong> <span id="thankYouTime">30-45 دقيقة</span></div>
+                <div class="order-detail"><strong>المجموع:</strong> <span id="thankYouTotal">140 دج</span></div>
+            </div>
+            <button class="btn" id="thankYouCloseBtn">
+                <i class="fas fa-times"></i> إغلاق
+            </button>
+        </div>
+    </div>
+    
+    <!-- Order Status Modal -->
+    <div class="modal order-status-modal" id="orderStatusModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeStatusModal">&times;</span>
+            <div class="order-status-header">
+                <h2><i class="fas fa-clipboard-check"></i> حالة الطلب</h2>
+                <div class="order-number">رقم الطلب: <span id="orderIdDisplay">#12345</span></div>
+            </div>
+            
+            <div class="status-timeline">
+                <div class="status-step completed">
+                    <div class="status-icon-wrapper">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="status-details">
+                        <div class="status-title">تم استلام الطلب</div>
+                        <div class="status-time">اليوم، 10:30 ص</div>
+                    </div>
+                </div>
+                
+                <div class="status-step active">
+                    <div class="status-icon-wrapper">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="status-details">
+                        <div class="status-title">قيد التحضير</div>
+                        <div class="status-time">قيد التنفيذ</div>
+                    </div>
+                </div>
+                
+                <div class="status-step">
+                    <div class="status-icon-wrapper">
+                        <i class="fas fa-motorcycle"></i>
+                    </div>
+                    <div class="status-details">
+                        <div class="status-title">قيد التوصيل</div>
+                        <div class="status-time">لم يبدأ بعد</div>
+                    </div>
+                </div>
+                
+                <div class="status-step">
+                    <div class="status-icon-wrapper">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="status-details">
+                        <div class="status-title">تم التسليم</div>
+                        <div class="status-time">لم يكتمل بعد</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-items-list">
+                <h3><i class="fas fa-list"></i> تفاصيل الطلب</h3>
+                <div id="orderStatusItems">
+                    <!-- Order items will be loaded here -->
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>السعر الإجمالي:</span>
+                        <span id="orderStatusSubtotal">0 دج</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>رسوم التوصيل:</span>
+                        <span id="orderStatusDelivery">140 دج</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>المجموع:</span>
+                        <span id="orderStatusTotal">140 دج</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-utensils"></i> Moulai Food</h3>
+                <p>أفضل تجربة طعام في المدينة</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-map-marker-alt"></i> العنوان</h3>
+                <p>تماسين </p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-phone"></i> الاتصال</h3>
+                <p>+213 123 456 789</p>
+            </div>
+            <div class="footer-section">
+                <h3><i class="fas fa-code"></i> التطوير</h3>
+                <p>تم التطوير بواسطة <strong>Redox</strong></p>
+                
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Moulai Food. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

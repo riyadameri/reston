@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم المطعم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- الشريط الجانبي -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images/logo.png" alt="شعار المطعم">
+                <h2>إدارة المطعم</h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>الرئيسية</span>
+                    </li>
+                    <li data-section="food-management">
+                        <i class="fas fa-utensils"></i>
+                        <span>إدارة القائمة</span>
+                    </li>
+                    <li data-section="orders">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>الطلبات</span>
+                    </li>
+                    <li data-section="stats">
+                        <i class="fas fa-chart-line"></i>
+                        <span>الإحصائيات</span>
+                    </li>
+                    <li data-section="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="user-profile">
+                <img src="images/admin-avatar.png" alt="صورة المدير">
+                <div class="user-info">
+                    <h4>مدير المطعم</h4>
+                    <p>admin@restaurant.com</p>
+                </div>
+                <button class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <!-- شريط العنوان -->
+            <header class="content-header">
+                <h1 id="page-title">لوحة التحكم</h1>
+                <div class="header-actions">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" placeholder="بحث...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- أقسام المحتوى -->
+            <section class="content-section active" id="dashboard-section">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-primary">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>الطلبات اليوم</h3>
+                            <p class="stat-value">24</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-success">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>الإيرادات اليوم</h3>
+                            <p class="stat-value">1,245 ر.س</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-warning">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>الأصناف المتاحة</h3>
+                            <p class="stat-value">18</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon bg-danger">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>طلبات معلقة</h3>
+                            <p class="stat-value">5</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-orders">
+                    <div class="section-header">
+                        <h2>أحدث الطلبات</h2>
+                        <a href="#" class="view-all" data-section="orders">عرض الكل</a>
+                    </div>
+                    <div class="orders-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>رقم الطلب</th>
+                                    <th>العميل</th>
+                                    <th>التاريخ</th>
+                                    <th>المجموع</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-orders-body">
+                                <!-- سيتم ملؤها بالبيانات من JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم إدارة الطعام -->
+            <section class="content-section" id="food-management-section">
+                <div class="section-header">
+                    <h2>إدارة قائمة الطعام</h2>
+                    <button class="btn btn-primary" id="add-food-btn">
+                        <i class="fas fa-plus"></i> إضافة صنف جديد
+                    </button>
+                </div>
+                
+                <div class="food-items-grid" id="food-items-container">
+                    <!-- سيتم ملؤها بالبيانات من JavaScript -->
+                </div>
+            </section>
+            
+            <!-- قسم الطلبات -->
+            <section class="content-section" id="orders-section">
+                <div class="section-header">
+                    <h2>إدارة الطلبات</h2>
+                    <div class="order-filters">
+                        <select id="order-status-filter">
+                            <option value="all">جميع الحالات</option>
+                            <option value="pending">معلقة</option>
+                            <option value="preparing">قيد التحضير</option>
+                            <option value="delivering">قيد التوصيل</option>
+                            <option value="delivered">تم التوصيل</option>
+                        </select>
+                        <input type="date" id="order-date-filter">
+                    </div>
+                </div>
+                
+                <div class="orders-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>العميل</th>
+                                <th>الهاتف</th>
+                                <th>العنوان</th>
+                                <th>التاريخ</th>
+                                <th>المجموع</th>
+                                <th>الحالة</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-table-body">
+                            <!-- سيتم ملؤها بالبيانات من JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- قسم الإحصائيات -->
+            <section class="content-section" id="stats-section">
+                <div class="section-header">
+                    <h2>إحصائيات المبيعات</h2>
+                    <div class="stats-period">
+                        <select id="stats-period">
+                            <option value="today">اليوم</option>
+                            <option value="week">الأسبوع</option>
+                            <option value="month">الشهر</option>
+                            <option value="year">السنة</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="chart-container">
+                        <canvas id="sales-chart"></canvas>
+                    </div>
+                    
+                    <div class="stats-summary">
+                        <div class="summary-card">
+                            <h3>إجمالي المبيعات</h3>
+                            <p class="summary-value">24,560 ر.س</p>
+                            <p class="summary-change up">+12% عن الشهر الماضي</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>عدد الطلبات</h3>
+                            <p class="summary-value">428</p>
+                            <p class="summary-change up">+8% عن الشهر الماضي</p>
+                        </div>
+                        <div class="summary-card">
+                            <h3>متوسط الطلب</h3>
+                            <p class="summary-value">57.38 ر.س</p>
+                            <p class="summary-change down">-3% عن الشهر الماضي</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="top-items">
+                    <h3>أكثر الأصناف طلباً</h3>
+                    <div class="top-items-list" id="top-items-list">
+                        <!-- سيتم ملؤها بالبيانات من JavaScript -->
+                    </div>
+                </div>
+            </section>
+            
+            <!-- قسم الإعدادات -->
+            <section class="content-section" id="settings-section">
+                <div class="section-header">
+                    <h2>إعدادات النظام</h2>
+                </div>
+                
+                <div class="settings-tabs">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="general">عام</button>
+                        <button class="tab-btn" data-tab="delivery">التوصيل</button>
+                        <button class="tab-btn" data-tab="payment">الدفع</button>
+                        <button class="tab-btn" data-tab="notifications">الإشعارات</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="general-tab">
+                        <form id="general-settings-form">
+                            <div class="form-group">
+                                <label for="restaurant-name">اسم المطعم</label>
+                                <input type="text" id="restaurant-name" value="مطعمنا الفاخر">
+                            </div>
+                            <div class="form-group">
+                                <label for="restaurant-phone">هاتف المطعم</label>
+                                <input type="text" id="restaurant-phone" value="+966501234567">
+                            </div>
+                            <div class="form-group">
+                                <label for="restaurant-address">عنوان المطعم</label>
+                                <textarea id="restaurant-address">الرياض، حي الصحافة، شارع الملك فهد</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="restaurant-logo">شعار المطعم</label>
+                                <input type="file" id="restaurant-logo">
+                            </div>
+                            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                        </form>
+                    </div>
+                    
+                    <div class="tab-content" id="delivery-tab">
+                        <form id="delivery-settings-form">
+                            <div class="form-group">
+                                <label for="delivery-fee">رسوم التوصيل (ر.س)</label>
+                                <input type="number" id="delivery-fee" value="15">
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-time">وقت التوصيل المتوقع (دقيقة)</label>
+                                <input type="number" id="delivery-time" value="45">
+                            </div>
+                            <div class="form-group">
+                                <label for="delivery-areas">مناطق التوصيل</label>
+                                <textarea id="delivery-areas">الرياض - جدة - مكة - المدينة - الدمام</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                        </form>
+                    </div>
+                    
+                    <div class="tab-content" id="payment-tab">
+                        <form id="payment-settings-form">
+                            <div class="form-group">
+                                <label>طرق الدفع المتاحة</label>
+                                <div class="checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked> الدفع نقداً عند الاستلام
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" checked> بطاقة الائتمان
+                                    </label>
+                                    <label>
+                                        <input type="checkbox"> حوالة بنكية
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" checked> محفظة إلكترونية
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tax-rate">ضريبة القيمة المضافة (%)</label>
+                                <input type="number" id="tax-rate" value="15">
+                            </div>
+                            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                        </form>
+                    </div>
+                    
+                    <div class="tab-content" id="notifications-tab">
+                        <form id="notifications-settings-form">
+                            <div class="form-group">
+                                <label>إشعارات البريد الإلكتروني</label>
+                                <div class="checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked> تلقي إشعارات جديدة بالطلبات
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" checked> تلقي تنبيهات التوصيل
+                                    </label>
+                                    <label>
+                                        <input type="checkbox"> تلقي تقارير يومية
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>إشعارات التطبيق</label>
+                                <div class="checkbox-group">
+                                    <label>
+                                        <input type="checkbox" checked> تنبيهات الطلبات الجديدة
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" checked> تنبيهات تغيير حالة الطلب
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- نافذة إضافة/تعديل صنف طعام -->
+    <div class="modal" id="food-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="food-modal-title">إضافة صنف جديد</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="food-form">
+                    <input type="hidden" id="food-id">
+                    <div class="form-group">
+                        <label for="food-name">اسم الصنف</label>
+                        <input type="text" id="food-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="food-price">السعر (ر.س)</label>
+                        <input type="number" id="food-price" min="0" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="food-description">الوصف</label>
+                        <textarea id="food-description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="food-image">صورة الصنف</label>
+                        <input type="file" id="food-image" accept="image/*">
+                        <div class="image-preview" id="food-image-preview">
+                            <img id="food-preview-img" src="" alt="معاينة الصورة">
+                            <p id="food-no-image">لا توجد صورة مختارة</p>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary close-modal">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">حفظ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- نافذة تفاصيل الطلب -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تفاصيل الطلب <span id="order-number"></span></h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details">
+                    <div class="order-info">
+                        <div class="info-row">
+                            <span class="info-label">العميل:</span>
+                            <span class="info-value" id="order-customer"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">الهاتف:</span>
+                            <span class="info-value" id="order-phone"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">العنوان:</span>
+                            <span class="info-value" id="order-address"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">التاريخ:</span>
+                            <span class="info-value" id="order-date"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">الحالة:</span>
+                            <span class="info-value" id="order-status"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <h4>الأصناف المطلوبة:</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الصنف</th>
+                                    <th>الكمية</th>
+                                    <th>السعر</th>
+                                    <th>المجموع</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order-items-body">
+                                <!-- سيتم ملؤها بالبيانات من JavaScript -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3">سعر الأصناف:</td>
+                                    <td id="order-subtotal">0 ر.س</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">رسوم التوصيل:</td>
+                                    <td id="order-delivery">0 ر.س</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">الإجمالي:</td>
+                                    <td id="order-total">0 ر.س</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <div class="order-actions">
+                        <div class="status-actions">
+                            <label>تغيير الحالة:</label>
+                            <select id="order-status-select">
+                                <option value="pending">معلقة</option>
+                                <option value="preparing">قيد التحضير</option>
+                                <option value="delivering">قيد التوصيل</option>
+                                <option value="delivered">تم التوصيل</option>
+                                <option value="cancelled">ملغاة</option>
+                            </select>
+                            <button class="btn btn-primary" id="update-status-btn">تحديث</button>
+                        </div>
+                        <button class="btn btn-danger" id="cancel-order-btn">إلغاء الطلب</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // العناصر العامة
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav li');
+        const contentSections = document.querySelectorAll('.content-section');
+        const viewAllLinks = document.querySelectorAll('.view-all');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const modal = document.querySelectorAll('.modal');
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+
+        // تغيير القسم النشط
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const sectionId = link.getAttribute('data-section');
+                
+                // إزالة النشاط من جميع الروابط والأقسام
+                sidebarLinks.forEach(item => item.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+                
+                // إضافة النشاط للرابط والقسم المحدد
+                link.classList.add('active');
+                document.getElementById(`${sectionId}-section`).classList.add('active');
+                
+                // تحديث عنوان الصفحة
+                document.getElementById('page-title').textContent = link.querySelector('span').textContent;
+            });
+        });
+
+        // عرض الكل
+        viewAllLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = link.getAttribute('data-section');
+                
+                sidebarLinks.forEach(item => item.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+                
+                const targetLink = document.querySelector(`.sidebar-nav li[data-section="${sectionId}"]`);
+                targetLink.classList.add('active');
+                document.getElementById(`${sectionId}-section`).classList.add('active');
+                
+                document.getElementById('page-title').textContent = targetLink.querySelector('span').textContent;
+            });
+        });
+
+        // التبويبات
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.getAttribute('data-tab');
+                
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                button.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // النوافذ المنبثقة
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('.modal');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // إغلاق النافذة عند النقر خارجها
+        modal.forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // الرسم البياني للإحصائيات
+        function initCharts() {
+            const salesCtx = document.getElementById('sales-chart').getContext('2d');
+            
+            const salesChart = new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'],
+                    datasets: [{
+                        label: 'المبيعات',
+                        data: [5000, 7500, 6200, 8900, 11000, 9500],
+                        backgroundColor: 'rgba(78, 115, 223, 0.05)',
+                        borderColor: 'rgba(78, 115, 223, 1)',
+                        pointBackgroundColor: 'rgba(78, 115, 223, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(78, 115, 223, 1)',
+                        borderWidth: 2,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' ر.س';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // تحميل البيانات الأولية
+        async function loadInitialData() {
+            try {
+                // تحميل الطلبات الحديثة
+                const recentOrdersResponse = await fetch('/orders?limit=5&sort=-createdAt');
+                const recentOrders = await recentOrdersResponse.json();
+                renderRecentOrders(recentOrders.data);
+                
+                // تحميل الأصناف الغذائية
+                const foodsResponse = await fetch('/foods');
+                const foods = await foodsResponse.json();
+                renderFoodItems(foods.data);
+                
+                // تحميل جميع الطلبات
+                const ordersResponse = await fetch('/orders');
+                const orders = await ordersResponse.json();
+                renderOrdersTable(orders.data);
+                
+                // تحميل أكثر الأصناف طلباً
+                const topItemsResponse = await fetch('/orders/top-items');
+                const topItems = await topItemsResponse.json();
+                renderTopItems(topItems.data);
+                
+                // تهيئة الرسوم البيانية
+                initCharts();
+            } catch (error) {
+                console.error('Error loading initial data:', error);
+            }
+        }
+
+        // عرض الطلبات الحديثة
+        function renderRecentOrders(orders) {
+            const tbody = document.getElementById('recent-orders-body');
+            tbody.innerHTML = '';
+            
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>#${order.orderNumber}</td>
+                    <td>${order.userName}</td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>${order.totalPrice} ر.س</td>
+                    <td><span class="status-badge status-${order.status}">${getStatusText(order.status)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-order-btn" data-id="${order._id}">
+                            <i class="fas fa-eye"></i> عرض
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+            
+            // إضافة مستمعين لأزرار عرض الطلب
+            document.querySelectorAll('.view-order-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const orderId = button.getAttribute('data-id');
+                    await showOrderDetails(orderId);
+                });
+            });
+        }
+
+        // نص حالة الطلب
+        function getStatusText(status) {
+            const statusTexts = {
+                'pending': 'معلقة',
+                'preparing': 'قيد التحضير',
+                'delivering': 'قيد التوصيل',
+                'delivered': 'تم التوصيل',
+                'cancelled': 'ملغاة'
+            };
+            
+            return statusTexts[status] || status;
+        }
+
+        // العناصر
+        const ordersTableBody = document.getElementById('orders-table-body');
+        const orderStatusFilter = document.getElementById('order-status-filter');
+        const orderDateFilter = document.getElementById('order-date-filter');
+        const orderModal = document.getElementById('order-modal');
+        const orderNumberSpan = document.getElementById('order-number');
+        const orderCustomerSpan = document.getElementById('order-customer');
+        const orderPhoneSpan = document.getElementById('order-phone');
+        const orderAddressSpan = document.getElementById('order-address');
+        const orderDateSpan = document.getElementById('order-date');
+        const orderStatusSpan = document.getElementById('order-status');
+        const orderItemsBody = document.getElementById('order-items-body');
+        const orderSubtotalSpan = document.getElementById('order-subtotal');
+        const orderDeliverySpan = document.getElementById('order-delivery');
+        const orderTotalSpan = document.getElementById('order-total');
+        const orderStatusSelect = document.getElementById('order-status-select');
+        const updateStatusBtn = document.getElementById('update-status-btn');
+        const cancelOrderBtn = document.getElementById('cancel-order-btn');
+
+        // تصفية الطلبات
+        orderStatusFilter.addEventListener('change', filterOrders);
+        orderDateFilter.addEventListener('change', filterOrders);
+
+        // عرض جدول الطلبات
+        function renderOrdersTable(orders) {
+            ordersTableBody.innerHTML = '';
+            
+            orders.forEach(order => {
+                const tr = document.createElement('tr');
+                
+                tr.innerHTML = `
+                    <td>#${order.orderNumber}</td>
+                    <td>${order.userName}</td>
+                    <td>${order.userPhone}</td>
+                    <td>${order.deliveryAddress.substring(0, 20)}...</td>
+                    <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                    <td>${order.totalPrice} ر.س</td>
+                    <td><span class="status-badge status-${order.status}">${getStatusText(order.status)}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary view-order-btn" data-id="${order._id}">
+                            <i class="fas fa-eye"></i> عرض
+                        </button>
+                    </td>
+                `;
+                
+                ordersTableBody.appendChild(tr);
+            });
+            
+            // إضافة مستمعين لأزرار عرض الطلب
+            document.querySelectorAll('.view-order-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const orderId = button.getAttribute('data-id');
+                    await showOrderDetails(orderId);
+                });
+            });
+        }
+
+        // تصفية الطلبات
+        async function filterOrders() {
+            const status = orderStatusFilter.value;
+            const date = orderDateFilter.value;
+            
+            let url = '/orders?';
+            
+            if (status !== 'all') {
+                url += `status=${status}&`;
+            }
+            
+            if (date) {
+                url += `date=${date}&`;
+            }
+            
+            try {
+                const response = await fetch(url);
+                const orders = await response.json();
+                renderOrdersTable(orders.data);
+            } catch (error) {
+                console.error('Error filtering orders:', error);
+                alert('حدث خطأ أثناء تصفية الطلبات');
+            }
+        }
+
+        // عرض تفاصيل الطلب
+        async function showOrderDetails(orderId) {
+            try {
+                const response = await fetch(`/orders/${orderId}`);
+                const order = await response.json();
+                
+                if (response.ok) {
+                    // تعبئة بيانات الطلب
+                    orderNumberSpan.textContent = `#${order.data.orderNumber}`;
+                    orderCustomerSpan.textContent = order.data.userName;
+                    orderPhoneSpan.textContent = order.data.userPhone;
+                    orderAddressSpan.textContent = order.data.deliveryAddress;
+                    orderDateSpan.textContent = new Date(order.data.createdAt).toLocaleString();
+                    orderStatusSpan.textContent = getStatusText(order.data.status);
+                    orderStatusSpan.className = `status-badge status-${order.data.status}`;
+                    
+                    // تعبئة أصناف الطلب
+                    orderItemsBody.innerHTML = '';
+                    let subtotal = 0;
+                    
+                    order.data.foodItems.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${item.foodId.name}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price} ر.س</td>
+                            <td>${item.price * item.quantity} ر.س</td>
+                        `;
+                        orderItemsBody.appendChild(tr);
+                        
+                        subtotal += item.price * item.quantity;
+                    });
+                    
+                    // تعبئة المجاميع
+                    orderSubtotalSpan.textContent = `${subtotal} ر.س`;
+                    orderDeliverySpan.textContent = `${order.data.deliveryPrice} ر.س`;
+                    orderTotalSpan.textContent = `${order.data.totalPrice} ر.س`;
+                    
+                    // تعيين حالة الطلب الحالية
+                    orderStatusSelect.value = order.data.status;
+                    
+                    // إظهار النافذة
+                    openModal('order-modal');
+                    
+                    // تخزين معرف الطلب في الزر
+                    updateStatusBtn.setAttribute('data-id', order.data._id);
+                    cancelOrderBtn.setAttribute('data-id', order.data._id);
+                } else {
+                    throw new Error(order.error || 'Failed to fetch order');
+                }
+            } catch (error) {
+                console.error('Error fetching order details:', error);
+                alert('حدث خطأ أثناء تحميل تفاصيل الطلب: ' + error.message);
+            }
+        }
+
+        // تحديث حالة الطلب
+        updateStatusBtn.addEventListener('click', async () => {
+            const orderId = updateStatusBtn.getAttribute('data-id');
+            const newStatus = orderStatusSelect.value;
+            
+            try {
+                const response = await fetch(`/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // إعادة تحميل الطلبات
+                    const ordersResponse = await fetch('/orders');
+                    const orders = await ordersResponse.json();
+                    renderOrdersTable(orders.data);
+                    
+                    // إغلاق النافذة
+                    closeModal('order-modal');
+                    
+                    // عرض رسالة نجاح
+                    alert(result.message);
+                } else {
+                    throw new Error(result.error || 'Failed to update order status');
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                alert('حدث خطأ أثناء تحديث حالة الطلب: ' + error.message);
+            }
+        });
+
+        // إلغاء الطلب
+        cancelOrderBtn.addEventListener('click', async () => {
+            const orderId = cancelOrderBtn.getAttribute('data-id');
+            
+            if (!confirm('هل أنت متأكد من إلغاء هذا الطلب؟')) return;
+            
+            try {
+                const response = await fetch(`/orders/${orderId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: 'cancelled' })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // إعادة تحميل الطلبات
+                    const ordersResponse = await fetch('/orders');
+                    const orders = await ordersResponse.json();
+                    renderOrdersTable(orders.data);
+                    
+                    // إغلاق النافذة
+                    closeModal('order-modal');
+                    
+                    // عرض رسالة نجاح
+                    alert(result.message);
+                } else {
+                    throw new Error(result.error || 'Failed to cancel order');
+                }
+            } catch (error) {
+                console.error('Error cancelling order:', error);
+                alert('حدث خطأ أثناء إلغاء الطلب: ' + error.message);
+            }
+        });
+
+        // عرض أكثر الأصناف طلباً
+        function renderTopItems(items) {
+            const topItemsList = document.getElementById('top-items-list');
+            topItemsList.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                if (index >= 6) return;
+                
+                const div = document.createElement('div');
+                div.className = 'top-item';
+                
+                div.innerHTML = `
+                    <div class="top-item-img">
+                        <img src="/foods/${item.foodId._id}/image" alt="${item.foodId.name}">
+                    </div>
+                    <div class="top-item-info">
+                        <h4>${item.foodId.name}</h4>
+                        <p>تم طلبها ${item.count} مرات</p>
+                    </div>
+                `;
+                
+                topItemsList.appendChild(div);
+            });
+        }
+
+        // إدارة القائمة - العناصر
+        const addFoodBtn = document.getElementById('add-food-btn');
+        const foodModal = document.getElementById('food-modal');
+        const foodForm = document.getElementById('food-form');
+        const foodIdInput = document.getElementById('food-id');
+        const foodNameInput = document.getElementById('food-name');
+        const foodPriceInput = document.getElementById('food-price');
+        const foodDescriptionInput = document.getElementById('food-description');
+        const foodImageInput = document.getElementById('food-image');
+        const foodImagePreview = document.getElementById('food-image-preview');
+        const foodPreviewImg = document.getElementById('food-preview-img');
+        const foodNoImageText = document.getElementById('food-no-image');
+        const foodModalTitle = document.getElementById('food-modal-title');
+        const foodItemsContainer = document.getElementById('food-items-container');
+
+        // عرض نافذة إضافة صنف جديد
+        addFoodBtn.addEventListener('click', () => {
+            foodForm.reset();
+            foodIdInput.value = '';
+            foodModalTitle.textContent = 'إضافة صنف جديد';
+            foodPreviewImg.style.display = 'none';
+            foodNoImageText.style.display = 'block';
+            openModal('food-modal');
+        });
+
+        // معاينة الصورة عند اختيارها
+        foodImageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    foodPreviewImg.src = e.target.result;
+                    foodPreviewImg.style.display = 'block';
+                    foodNoImageText.style.display = 'none';
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // حفظ/تحديث الصنف
+        foodForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('name', foodNameInput.value);
+            formData.append('price', foodPriceInput.value);
+            formData.append('description', foodDescriptionInput.value);
+            
+            if (foodImageInput.files[0]) {
+                formData.append('image', foodImageInput.files[0]);
+            }
+            
+            try {
+                let response;
+                const foodId = foodIdInput.value;
+                
+                if (foodId) {
+                    // تحديث الصنف الموجود
+                    response = await fetch(`/foods/${foodId}`, {
+                        method: 'PUT',
+                        body: formData
+                    });
+                } else {
+                    // إضافة صنف جديد
+                    response = await fetch('/foods', {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // إعادة تحميل الأصناف
+                    const foodsResponse = await fetch('/foods');
+                    const foods = await foodsResponse.json();
+                    renderFoodItems(foods.data);
+                    
+                    // إغلاق النافذة
+                    closeModal('food-modal');
+                    
+                    // عرض رسالة نجاح
+                    alert(result.message);
+                } else {
+                    throw new Error(result.error || 'Failed to save food');
+                }
+            } catch (error) {
+                console.error('Error saving food:', error);
+                alert('حدث خطأ أثناء حفظ الصنف: ' + error.message);
+            }
+        });
+
+        // عرض الأصناف الغذائية
+        function renderFoodItems(foods) {
+            foodItemsContainer.innerHTML = '';
+            
+            foods.forEach(food => {
+                const div = document.createElement('div');
+                div.className = 'food-item';
+                
+                div.innerHTML = `
+                    <div class="food-item-img">
+                        <img src="/foods/${food._id}/image" alt="${food.name}">
+                    </div>
+                    <div class="food-item-info">
+                        <h3>${food.name}</h3>
+                        <p>${food.description}</p>
+                        <div class="food-item-price">${food.price} ر.س</div>
+                        <div class="food-item-actions">
+                            <button class="btn btn-sm btn-primary edit-food-btn" data-id="${food._id}">
+                                <i class="fas fa-edit"></i> تعديل
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-food-btn" data-id="${food._id}">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                foodItemsContainer.appendChild(div);
+            });
+            
+            // إضافة مستمعين لأزرار التعديل والحذف
+            document.querySelectorAll('.edit-food-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const foodId = button.getAttribute('data-id');
+                    await editFood(foodId);
+                });
+            });
+            
+            document.querySelectorAll('.delete-food-btn').forEach(button => {
+                button.addEventListener('click', async () => {
+                    const foodId = button.getAttribute('data-id');
+                    await deleteFood(foodId);
+                });
+            });
+        }
+
+        // تحميل بيانات الصنف للتعديل
+        async function editFood(foodId) {
+            try {
+                const response = await fetch(`/foods/${foodId}`);
+                const food = await response.json();
+                
+                if (response.ok) {
+                    // تعبئة النموذج ببيانات الصنف
+                    foodIdInput.value = food.data._id;
+                    foodNameInput.value = food.data.name;
+                    foodPriceInput.value = food.data.price;
+                    foodDescriptionInput.value = food.data.description;
+                    
+                    // عرض الصورة إذا كانت موجودة
+                    if (food.data.image && food.data.image.data) {
+                        foodPreviewImg.src = `/foods/${food.data._id}/image`;
+                        foodPreviewImg.style.display = 'block';
+                        foodNoImageText.style.display = 'none';
+                    } else {
+                        foodPreviewImg.style.display = 'none';
+                        foodNoImageText.style.display = 'block';
+                    }
+                    
+                    // تغيير عنوان النافذة
+                    foodModalTitle.textContent = 'تعديل صنف';
+                    
+                    // فتح النافذة
+                    openModal('food-modal');
+                } else {
+                    throw new Error(food.error || 'Failed to fetch food');
+                }
+            } catch (error) {
+                console.error('Error fetching food:', error);
+                alert('حدث خطأ أثناء تحميل بيانات الصنف: ' + error.message);
+            }
+        }
+
+        // حذف صنف
+        async function deleteFood(foodId) {
+            if (!confirm('هل أنت متأكد من حذف هذا الصنف؟')) return;
+            
+            try {
+                const response = await fetch(`/foods/${foodId}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // إعادة تحميل الأصناف
+                    const foodsResponse = await fetch('/foods');
+                    const foods = await foodsResponse.json();
+                    renderFoodItems(foods.data);
+                    
+                    // عرض رسالة نجاح
+                    alert(result.message);
+                } else {
+                    throw new Error(result.error || 'Failed to delete food');
+                }
+            } catch (error) {
+                console.error('Error deleting food:', error);
+                alert('حدث خطأ أثناء حذف الصنف: ' + error.message);
+            }
+        }
+
+        // تحميل البيانات عند بدء التشغيل
+        document.addEventListener('DOMContentLoaded', () => {
+            loadInitialData();
+        });
+    </script>
+</body>
+</html>
