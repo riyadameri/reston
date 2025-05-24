@@ -1,8 +1,8 @@
         // API Configuration
-        const API_BASE_URL = 'http://localhost:3000'; // Change this to your API URL
+        const API_BASE_URL = 'https://redox-resto.onrender.com'; // Change this to your API URL
         
         // Initialize Socket.io connection
-        const socket = io('http://localhost:3000', {
+        const socket = io('https://redox-resto.onrender.com', {
             reconnection: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 1000,

@@ -94,7 +94,28 @@ const emitOrderUpdate = (orderId, orderData) => {
 
 // Routes
 app.get('/', (req, res) => {
-  res.send('Food Delivery API is running');
+  res.status(200).json({
+    message: 'Welcome to the Food Delivery API! 🚀',
+    endpoints: {
+      foods: {
+        create: '/foods (POST)',
+        getAll: '/foods (GET)',
+        getById: '/foods/:id (GET)',
+        update: '/foods/:id (PUT)',
+        delete: '/foods/:id (DELETE)',
+        getImage: '/foods/:id/image (GET)'
+      },
+      orders: {
+        create: '/orders (POST)',
+        getAll: '/orders (GET)',
+        getById: '/orders/:id (GET)',
+        update: '/orders/:id (PUT)',
+        delete: '/orders/:id (DELETE)',
+        updateStatus: '/orders/:id/status (PUT)',
+        statusCounts: '/orders/status-counts (GET)'
+      }
+    }
+  });
 });
 
 // Food Routes
