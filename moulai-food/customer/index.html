@@ -9,79 +9,103 @@
     <title>Redox TemaFood - طلب الطعام</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> <link rel="icon" href="assets/redd-removebg-preview.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="icon" href="assets/redd-removebg-preview.png" type="image/png">
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <script src="مسار/ملفك/الجافاسكريبت.js"></script> 
-    </head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.css">
+</head>
 
 <body>
-    <script src="مسار/ملفك/الجافاسكريبت.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-        crossorigin="anonymous"></script>
-
-    <header>
+    <div class="background-animation"></div>
+    
+    <header class="glass-header">
         <div class="header-content">
-            <h1><i class="fas fa-utensils"></i> TemaFood</h1>
-            <div class="cart-icon" id="cartIcon">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count" id="cartCount">0</span>
+            <h1 class="logo animate__animated animate__fadeInDown">
+                <i class="fas fa-utensils logo-icon"></i> 
+                <span>Tema<span class="logo-highlight">Food</span></span>
+            </h1>
+            <div class="cart-icon animate__animated animate__pulse" id="cartIcon">
+                <div class="cart-badge">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+                <div class="cart-pulse"></div>
             </div>
         </div>
     </header>
 
-    <div class="orders-status">
-        <h2><i class="fas fa-clipboard-list"></i> حالة طلباتك</h2>
+    <div class="orders-status glass-card">
+        <h2 class="section-title"><i class="fas fa-clipboard-list"></i> حالة طلباتك</h2>
         <div class="status-cards">
-            <div class="status-card pending">
+            <div class="status-card pending animate__animated animate__fadeInLeft">
                 <div class="status-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="status-title">قيد الانتظار</div>
-                <div class="status-count" id="pendingCount">0</div>
+                <div class="status-content">
+                    <div class="status-title">قيد الانتظار</div>
+                    <div class="status-count" id="pendingCount">0</div>
+                </div>
+                <div class="status-wave"></div>
             </div>
-            <div class="status-card preparing">
+            <div class="status-card preparing animate__animated animate__fadeInLeft animate__delay-1s">
                 <div class="status-icon">
                     <i class="fas fa-utensils"></i>
                 </div>
-                <div class="status-title">قيد التحضير</div>
-                <div class="status-count" id="preparingCount">0</div>
+                <div class="status-content">
+                    <div class="status-title">قيد التحضير</div>
+                    <div class="status-count" id="preparingCount">0</div>
+                </div>
+                <div class="status-wave"></div>
             </div>
-            <div class="status-card delivering">
+            <div class="status-card delivering animate__animated animate__fadeInLeft animate__delay-2s">
                 <div class="status-icon">
                     <i class="fas fa-motorcycle"></i>
                 </div>
-                <div class="status-title">قيد التوصيل</div>
-                <div class="status-count" id="deliveringCount">0</div>
+                <div class="status-content">
+                    <div class="status-title">قيد التوصيل</div>
+                    <div class="status-count" id="deliveringCount">0</div>
+                </div>
+                <div class="status-wave"></div>
             </div>
-            <div class="status-card delivered">
+            <div class="status-card delivered animate__animated animate__fadeInLeft animate__delay-3s">
                 <div class="status-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="status-title">تم التسليم</div>
-                <div class="status-count" id="deliveredCount">0</div>
+                <div class="status-content">
+                    <div class="status-title">تم التسليم</div>
+                    <div class="status-count" id="deliveredCount">0</div>
+                </div>
+                <div class="status-wave"></div>
             </div>
         </div>
     </div>
 
     <main>
         <div class="container">
-            <div class="menu" id="menu">
-                <h2><i class="fas fa-bars"></i> قائمة الطعام</h2>
+            <div class="menu glass-card" id="menu">
+                <h2 class="section-title"><i class="fas fa-bars"></i> قائمة الطعام</h2>
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="ابحث عن الطعام...">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search search-icon"></i>
+                    <div class="search-underline"></div>
                 </div>
                 <div class="food-items" id="foodItems">
-                    </div>
+                    <!-- Food items will be loaded here -->
+                </div>
             </div>
 
-            <div class="cart" id="cart">
-                <h2><i class="fas fa-shopping-cart"></i> سلة المشتريات</h2>
+            <div class="cart glass-card" id="cart">
+                <h2 class="section-title"><i class="fas fa-shopping-cart"></i> سلة المشتريات</h2>
                 <div class="cart-items" id="cartItems">
-                    <div class="empty-state">
-                        <i class="fas fa-shopping-cart"></i>
+                    <div class="empty-state animate__animated animate__fadeIn">
+                        <div class="empty-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
                         <p>سلة المشتريات فارغة</p>
+                        <button class="btn browse-btn" id="browseBtn">
+                            <i class="fas fa-utensils"></i> تصفح القائمة
+                        </button>
                     </div>
                 </div>
                 <div class="cart-summary">
@@ -98,18 +122,22 @@
                         <span id="total">140 دج</span>
                     </div>
                 </div>
-                <button class="btn checkout-btn" id="checkoutBtn">
+                <button class="btn checkout-btn animate__animated animate__pulse animate__infinite" id="checkoutBtn">
                     <i class="fas fa-check"></i> تأكيد الطلب
                 </button>
             </div>
         </div>
     </main>
 
+    <!-- Food Details Modal -->
     <div class="modal" id="foodDetailsModal">
-        <div class="modal-content">
+        <div class="modal-content glass-modal">
             <span class="close-btn" id="closeFoodModal">&times;</span>
             <div class="food-details-header">
-                <img id="detailFoodImage" src="" alt="Food" class="food-detail-image">
+                <div class="food-image-container">
+                    <img id="detailFoodImage" src="" alt="Food" class="food-detail-image">
+                    <div class="image-overlay"></div>
+                </div>
                 <h2 id="detailFoodName"></h2>
                 <div class="food-detail-price" id="detailFoodPrice"></div>
             </div>
@@ -117,33 +145,36 @@
                 <p id="detailFoodDescription">وصف مفصل عن الوجبة والمكونات المستخدمة فيها.</p>
             </div>
             <div class="food-detail-actions">
-                <button class="btn add-to-cart" id="addToCartFromDetail">
+                <button class="btn add-to-cart animate__animated" id="addToCartFromDetail">
                     <i class="fas fa-cart-plus"></i> أضف إلى السلة
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Checkout Modal -->
     <div class="modal" id="checkoutModal">
-        <div class="modal-content">
+        <div class="modal-content glass-modal">
             <span class="close-btn" id="closeModal">&times;</span>
-            <h2><i class="fas fa-receipt"></i> تفاصيل الطلب</h2>
+            <h2 class="modal-title"><i class="fas fa-receipt"></i> تفاصيل الطلب</h2>
             <form id="orderForm">
-                <div class="form-group">
-                    <label for="userName">اسمك</label>
+                <div class="form-group floating-label">
                     <input type="text" id="userName" required>
+                    <label for="userName">اسمك</label>
+                    <div class="underline"></div>
                 </div>
-                <div class="form-group">
-                    <label for="userPhone">رقم الهاتف</label>
+                <div class="form-group floating-label">
                     <input type="text" id="userPhone" required>
+                    <label for="userPhone">رقم الهاتف</label>
+                    <div class="underline"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="deliveryAddress">عنوان التوصيل</label>
+                <div class="form-group floating-label">
                     <textarea id="deliveryAddress" rows="3" required></textarea>
+                    <label for="deliveryAddress">عنوان التوصيل</label>
+                    <div class="underline"></div>
                 </div>
 
-                <div class="order-summary">
+                <div class="order-summary glass-inner">
                     <h3>ملخص الطلب</h3>
                     <div id="orderSummary"></div>
                     <div class="summary-total">
@@ -152,39 +183,43 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn">
+                <button type="submit" class="btn submit-btn">
                     <i class="fas fa-paper-plane"></i> إرسال الطلب
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- Thank You Modal -->
     <div class="modal thank-you-modal" id="thankYouModal">
-        <div class="modal-content">
-            <div class="thank-you-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <h2 class="thank-you-title">شكراً لطلبك!</h2>
-            <p class="thank-you-message">
-                تم استلام طلبك بنجاح وسيتم تجهيزه في أسرع وقت ممكن. يمكنك تتبع حالة الطلب من خلال صفحة الطلبات.
-            </p>
-            <div class="order-details">
-                <div class="order-detail"><strong>رقم الطلب:</strong> <span id="thankYouOrderId">#12345</span></div>
-                <div class="order-detail"><strong>الوقت المتوقع:</strong> <span id="thankYouTime">30-45 دقيقة</span>
+        <div class="modal-content glass-modal">
+            <div class="thank-you-content">
+                <div class="thank-you-icon animate__animated animate__heartBeat">
+                    <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="order-detail"><strong>المجموع:</strong> <span id="thankYouTotal">140 دج</span></div>
+                <h2 class="thank-you-title">شكراً لطلبك!</h2>
+                <p class="thank-you-message">
+                    تم استلام طلبك بنجاح وسيتم تجهيزه في أسرع وقت ممكن. يمكنك تتبع حالة الطلب من خلال صفحة الطلبات.
+                </p>
+                <div class="order-details glass-inner">
+                    <div class="order-detail"><strong>رقم الطلب:</strong> <span id="thankYouOrderId">#12345</span></div>
+                    <div class="order-detail"><strong>الوقت المتوقع:</strong> <span id="thankYouTime">30-45 دقيقة</span></div>
+                    <div class="order-detail"><strong>المجموع:</strong> <span id="thankYouTotal">140 دج</span></div>
+                </div>
+                <button class="btn close-btn" id="thankYouCloseBtn">
+                    <i class="fas fa-times"></i> إغلاق
+                </button>
             </div>
-            <button class="btn" id="thankYouCloseBtn">
-                <i class="fas fa-times"></i> إغلاق
-            </button>
+            <div class="confetti"></div>
         </div>
     </div>
 
+    <!-- Order Status Modal -->
     <div class="modal order-status-modal" id="orderStatusModal">
-        <div class="modal-content">
+        <div class="modal-content glass-modal">
             <span class="close-btn" id="closeStatusModal">&times;</span>
             <div class="order-status-header">
-                <h2><i class="fas fa-clipboard-check"></i> حالة الطلب</h2>
+                <h2 class="modal-title"><i class="fas fa-clipboard-check"></i> حالة الطلب</h2>
                 <div class="order-number">رقم الطلب: <span id="orderIdDisplay">#12345</span></div>
             </div>
 
@@ -233,8 +268,9 @@
             <div class="order-items-list">
                 <h3><i class="fas fa-list"></i> تفاصيل الطلب</h3>
                 <div id="orderStatusItems">
-                    </div>
-                <div class="order-summary">
+                    <!-- Order items will be loaded here -->
+                </div>
+                <div class="order-summary glass-inner">
                     <div class="summary-row">
                         <span>السعر الإجمالي:</span>
                         <span id="orderStatusSubtotal">0 دج</span>
@@ -252,7 +288,13 @@
         </div>
     </div>
 
-    <footer>
+    <!-- Floating Action Button -->
+    <div class="fab animate__animated animate__bounceInUp" id="fabButton">
+        <i class="fas fa-headset"></i>
+        <div class="fab-pulse"></div>
+    </div>
+
+    <footer class="glass-footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h3><i class="fas fa-utensils"></i> Tema Food</h3>
@@ -260,7 +302,7 @@
             </div>
             <div class="footer-section">
                 <h3><i class="fas fa-map-marker-alt"></i> العنوان</h3>
-                <p>تماسين </p>
+                <p>تماسين</p>
             </div>
             <div class="footer-section">
                 <h3><i class="fas fa-phone"></i> الاتصال</h3>
@@ -269,7 +311,7 @@
             <div class="footer-section">
                 <h3><i class="fas fa-code"></i> التطوير</h3>
                 <p>تم التطوير بواسطة <strong>Redox</strong></p>
-                <img src="assets/redoxw.png" alt="Redox Logo" class="footer-logo">
+                <img src="assets/redoxw.png" alt="Redox Logo" class="footer-logo hover-grow">
             </div>
         </div>
         <div class="footer-bottom">
@@ -277,12 +319,16 @@
         </div>
     </footer>
 
+    <!-- Toast Notification -->
     <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
         <span id="toastMessage"></span>
     </div>
 
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
-
 </body>
 </html>
